@@ -75,7 +75,7 @@
             border-bottom: none;
         }
 
-         .accordion-item input[type="checkbox"] {
+         .accordion-item input[type="radio"] {
             display: none;
         }
 
@@ -133,7 +133,7 @@
         }
 
         /* При открытом чекбоксе - минус */
-        .accordion-item input[type="checkbox"]:checked ~ .accordion-header .header-icon::after {
+        .accordion-item input[type="radio"]:checked ~ .accordion-header .header-icon::after {
             transform: scaleY(0);
             opacity: 0;
         }
@@ -151,12 +151,13 @@
             font-size: 16px;
         }
 
-        /* Открытое состояние */
-        .accordion-item input[type="checkbox"]:checked ~ .accordion-content {
-            max-height: 500px;
+        /* Открытое состояние - УВЕЛИЧИЛ max-height ДЛЯ ТЕЛЕФОНА */
+        .accordion-item input[type="radio"]:checked ~ .accordion-content {
+            max-height: 800px;  /* Увеличил с 500px до 800px */
             opacity: 1;
             margin: 0 0 20px 0;
             padding: 20px;
+            overflow-y: auto;    /* Добавил прокрутку если текст не помещается */
         }
 
         /* Контейнер для изображения и текста */
@@ -187,7 +188,7 @@
         }
 
         /* Эффекты при клик */
-        .accordion-item input[type="checkbox"]:checked ~ .accordion-header .header-text {
+        .accordion-item input[type="radio"]:checked ~ .accordion-header .header-text {
             color: #c88aff;
             text-shadow: 0 0 12px #bf7aff;
             font-weight: 700;
@@ -279,7 +280,7 @@
                 margin: 0 5px;
             }
             
-            /* На мобилке изображение */
+            /* На мобилке изображение сверху */
             .content-wrapper {
                 flex-direction: column;
                 gap: 15px;
@@ -289,6 +290,12 @@
                 width: 100%;
                 max-width: 300px;
                 margin: 0 auto;
+            }
+            
+            /* Дополнительно для телефона - увеличил отступы */
+            .accordion-item input[type="radio"]:checked ~ .accordion-content {
+                max-height: 900px;  /* Ещё больше для телефона */
+                padding: 15px;
             }
         }
 
@@ -315,7 +322,7 @@
     <div class="accordion">
         <!-- 1. История происхождения -->
         <div class="accordion-item">
-            <input type="checkbox" id="item1" checked>
+            <input type="radio" name="accordion" id="item1" checked>
             <label for="item1" class="accordion-header">
                 <span class="header-text">📜 История происхождения</span>
                 <span class="header-icon" aria-hidden="true"></span>
@@ -332,7 +339,7 @@
 
         <!-- 2. Способности -->
         <div class="accordion-item">
-            <input type="checkbox" id="item2">
+            <input type="radio" name="accordion" id="item2">
             <label for="item2" class="accordion-header">
                 <span class="header-text">⚙️ Способности</span>
                 <span class="header-icon" aria-hidden="true"></span>
@@ -349,7 +356,7 @@
 
         <!-- 3. Классы -->
         <div class="accordion-item">
-            <input type="checkbox" id="item3">
+            <input type="radio" name="accordion" id="item3">
             <label for="item3" class="accordion-header">
                 <span class="header-text">⚔️ Классы</span>
                 <span class="header-icon" aria-hidden="true"></span>
@@ -370,7 +377,7 @@
 
         <!-- 4. Душа и мировоззрение -->
         <div class="accordion-item">
-            <input type="checkbox" id="item4">
+            <input type="radio" name="accordion" id="item4">
             <label for="item4" class="accordion-header">
                 <span class="header-text">🔮 Душа и мировоззрение</span>
                 <span class="header-icon" aria-hidden="true"></span>
@@ -394,4 +401,3 @@
 </body>
 
 </html>
-
