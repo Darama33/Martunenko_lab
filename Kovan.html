@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Кованый</title>
+    <!-- Подключаем normalize.css --!>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <style>
+        /*тёмно-фиолетовой темы */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b3f 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.5;
+            margin: 0;
+            padding: 16px;
+        }
+
+        /* контейнер аккордеона */
+        .accordion {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(26, 10, 36, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid #5f3b7a;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 2px #3d1f4e inset, 0 0 20px #8a4fff33;
+            padding: 28px 36px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        /* Заголовок */
+        .accordion::before {
+            content: "⚔️ КОВАНЫЙ ⚔️";
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            background: #2e1945;
+            padding: 8px 30px;
+            border-radius: 60px;
+            border: 2px solid #b27bf5;
+            box-shadow: 0 0 25px #aa7eff;
+            color: #f0e2ff;
+            text-shadow: 0 0 15px #c49bff;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        .accordion {
+            position: relative;
+            margin-top: 40px;
+        }
+
+        /* Элементы аккордеона */
+        .accordion-item {
+            border-bottom: 1px solid #5a3a72;
+            margin-bottom: 4px;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+         .accordion-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            border-radius: 16px;
+        }
+
+          .header-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: #d9c5f0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            transition: color 0.2s ease;
+            flex: 1;
+        }
+
+        /* Иконка */
+        .header-icon {
+            width: 28px;
+            height: 28px;
+            position: relative;
+            margin: 0 12px;
+            flex-shrink: 0;
+        }
+
+        .header-icon::before,
+        .header-icon::after {
+            content: '';
+            position: absolute;
+            background-color: #b794f4;
+            border-radius: 4px;
+            box-shadow: 0 0 8px #ac6eff;
+            transition: all 0.4s ease;
+        }
+
+        .header-icon::before {
+            width: 24px;
+            height: 3px;
+            top: 12px;
+            left: 2px;
+        }
+
+        .header-icon::after {
+            width: 3px;
+            height: 24px;
+            top: 2px;
+            left: 12px;
+        }
+
+        /* При открытом чекбоксе - минус */
+        .accordion-item input[type="checkbox"]:checked ~ .accordion-header .header-icon::after {
+            transform: scaleY(0);
+            opacity: 0;
+        }
+
+        /* Обл контента */
+        .accordion-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in-out;
+            margin: 0;
+            background: rgba(45, 25, 60, 0.6);
+            border-radius: 20px;
+            color: #e1ceff;
+            font-size: 16px;
+        }
+
+        /* Открытое состояние */
+        .accordion-item input[type="checkbox"]:checked ~ .accordion-content {
+            max-height: 500px;
+            opacity: 1;
+            margin: 0 0 20px 0;
+            padding: 20px;
+        }
+
+        /* Контейнер для изображения и текста */
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        /* Изобр */
+        .content-wrapper img {
+            width: 200px;
+            height: auto;
+            border-radius: 16px;
+            border: 2px solid #7d4b9e;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
+        }
+
+        /* Текст располог */
+        .content-text {
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .content-text p {
+            margin-bottom: 10px;
+        }
+
+        /* Эффекты при клик */
+        .accordion-item input[type="checkbox"]:checked ~ .accordion-header .header-text {
+            color: #c88aff;
+            text-shadow: 0 0 12px #bf7aff;
+            font-weight: 700;
+        }
+
+        /* Эффект при наведении */
+        @media (hover: hover) {
+            .accordion-header:hover {
+                background: rgba(92, 48, 120, 0.4);
+                box-shadow: 0 0 20px #9156d1;
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .accordion-header:hover .header-text {
+                color: #e8d3ff;
+            }
+
+            .accordion-header:hover .header-icon::before,
+            .accordion-header:hover .header-icon::after {
+                background-color: #e2b3ff;
+                box-shadow: 0 0 12px #d094ff;
+            }
+
+            /* Предпросмотр скрытого изображения */
+            .accordion-item:not(:has(input:checked)) .accordion-header:hover ~ .accordion-content {
+                max-height: 150px;
+                opacity: 0.3;
+                margin-bottom: 15px;
+                padding: 15px;
+                transition: max-height 0.4s ease, opacity 0.3s ease;
+                pointer-events: none;
+                border: 1px dashed #a974d9;
+            }
+        }
+
+        /* Курсор указатель */
+        .accordion-header,
+        .accordion-header * {
+            cursor: pointer;
+        }
+
+        /* Адаптация */
+        @media (min-width: 1200px) {
+            .accordion {
+                max-width: 1100px;
+                padding: 35px 45px;
+            }
+            .header-text {
+                font-size: 24px;
+            }
+            .content-wrapper img {
+                width: 220px;
+            }
+        }
+
+        @media (min-width: 600px) and (max-width: 1199px) {
+            .accordion {
+                max-width: 800px;
+                padding: 24px 30px;
+            }
+            .header-text {
+                font-size: 21px;
+            }
+            .content-wrapper img {
+                width: 180px;
+            }
+        }
+
+        @media (max-width: 599px) {
+            body {
+                padding: 8px;
+            }
+            .accordion {
+                padding: 16px 14px;
+                border-radius: 20px;
+            }
+            .accordion::before {
+                font-size: 18px;
+                padding: 6px 20px;
+                white-space: nowrap;
+            }
+            .header-text {
+                font-size: 18px;
+            }
+            .header-icon {
+                width: 22px;
+                height: 22px;
+                margin: 0 5px;
+            }
+            
+            /* На мобилке изображение */
+            .content-wrapper {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .content-wrapper img {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Цитата */
+        .dnd-quote {
+            text-align: center;
+            margin-top: 25px;
+            color: #b18dd4;
+            font-style: italic;
+            font-size: 16px;
+            border-top: 1px dashed #6a4985;
+            padding-top: 15px;
+        }
+
+        .dnd-quote span {
+            color: #e8ceff;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="accordion">
+        <!-- 1. История происхождения -->
+        <div class="accordion-item">
+            <input type="checkbox" id="item1" checked>
+            <label for="item1" class="accordion-header">
+                <span class="header-text">📜 История происхождения</span>
+                <span class="header-icon" aria-hidden="true"></span>
+            </label>
+            <div class="accordion-content">
+                <div class="content-wrapper">
+                    <img src="1.jpg" alt="История Кованого">
+                    <div class="content-text">
+                        <p>Кованые были созданы во время Последней войны в Эберроне домами Каннит и Тарклейв как живые конструкты — идеальные солдаты. Они не спят, не едят, не чувствуют боли. После окончания войны Трактат Тронхолда даровал им свободу, и теперь тысячи кованых странствуют по миру в поисках своего места. Их тела состоят из дерева, металла и магических волокон, а сознание хранится в «сердце-камне».</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Способности -->
+        <div class="accordion-item">
+            <input type="checkbox" id="item2">
+            <label for="item2" class="accordion-header">
+                <span class="header-text">⚙️ Способности</span>
+                <span class="header-icon" aria-hidden="true"></span>
+            </label>
+            <div class="accordion-content">
+                <div class="content-wrapper">
+                     <img src="2.jpg" alt="2.jpg">
+                    <div class="content-text">
+                        <p><strong>+2 Телосложение, +1 к любой характеристике.</strong> Тип: конструкт. Иммунитет к болезням, ядам, магическому сну. Не нуждаются в еде, питье и воздухе. Встроенная защита: базовый КД 13 + Ловкость. Вместо сна — 6 часов неактивности, но сохраняют сознание. Владение одним инструментом или навыком на выбор. Могут быть исцелены магией как гуманоиды.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Классы -->
+        <div class="accordion-item">
+            <input type="checkbox" id="item3">
+            <label for="item3" class="accordion-header">
+                <span class="header-text">⚔️ Классы</span>
+                <span class="header-icon" aria-hidden="true"></span>
+            </label>
+            <div class="accordion-content">
+                <div class="content-wrapper">
+                    <img src="3.jpg" alt="3.jpg">
+                    <div class="content-text">
+                        <p><strong>Жрец Кузницы:</strong> идеальная синергия с расой, баффы и кованые доспехи.<br>
+                        <strong>Паладин:</strong> высокое Телосложение даёт много хитов, иммунитет к ядам и болезням.<br>
+                        <strong>Изобретатель:</strong> может модифицировать своё тело, улучшая броню и оружие.<br>
+                        <strong>Воин:</strong> дополнительные атаки, выживаемость, подходит для любого билда.<br>
+                        <strong>Варвар:</strong> ярость + встроенная броня = отличный танк.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Душа и мировоззрение -->
+        <div class="accordion-item">
+            <input type="checkbox" id="item4">
+            <label for="item4" class="accordion-header">
+                <span class="header-text">🔮 Душа и мировоззрение</span>
+                <span class="header-icon" aria-hidden="true"></span>
+            </label>
+            <div class="accordion-content">
+                <div class="content-wrapper">
+                    <img src="4.jpg" alt="4.jpg">
+                    <div class="content-text">
+                        <p>Главный вопрос — есть ли у кованых душа? Большинство из них верят, что есть, и их эмоции, мечты и страхи подтверждают это. Кованые испытывают любовь, гнев, печаль, но иначе, чем органические существа. Мировоззрение варьируется от законопослушных воинов, ищущих новый кодекс, до хаотичных исследователей свободы. Известны случаи, когда кованые становились жрецами, поэтами и дипломатами.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Цитата внизу -->
+        <div class="dnd-quote">
+            <span>«Я не помню, кто создал мне тело. Но я знаю, кто создаёт мою душу — я сам»</span>
+            — Кованый-странник
+        </div>
+    </div>
+</body>
+</html>
